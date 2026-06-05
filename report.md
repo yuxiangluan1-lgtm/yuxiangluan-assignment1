@@ -1,5 +1,7 @@
 # Assignment 1: Characterising a SAMBA AMOC Time Series
 
+BBF1004 Yuxiang Luan
+
 ## Data choice
 
 This analysis uses the SAMBA 34.5S observing array from AMOCatlas and the
