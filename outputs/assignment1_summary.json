@@ -1,0 +1,27 @@
+{
+  "array": "RAPID 26N",
+  "variable": "t_ek10",
+  "variable_label": "RAPID 26N Ekman transport",
+  "time_start": "2004-04-02",
+  "time_end": "2023-02-11",
+  "dt_days": 0.5,
+  "lowpass_days": 90.0,
+  "lowpass_window_samples": 181,
+  "welch_segment_length": 1024,
+  "welch_overlap": 0.5,
+  "longest_gap_samples": 10,
+  "longest_gap_days": 5.0,
+  "dominant_timescale_days": 512.0,
+  "parseval_ratio": 0.9957580769674983,
+  "parseval_ratio_filtered": 0.9301895954197136,
+  "stats": {
+    "n": 13779.0,
+    "n_missing": 20.0,
+    "mean": 3.7674765088343003,
+    "std": 3.4410280817823606,
+    "median": 3.8804113963861093,
+    "min": -13.003425152633044,
+    "max": 18.286027276491403,
+    "range": 31.289452429124445
+  }
+}

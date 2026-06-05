@@ -3,9 +3,9 @@ build-backend = "setuptools.build_meta"
 requires = ["setuptools>=68", "wheel"]
 
 [project]
-name = "amoc-analysis"
+name = "yuxiangluan-assignment1"
 version = "0.1.0"
-description = "Student assignment: data analysis for physical oceanography - AMOC transport analysis"
+description = "Assignment 1: characterising a RAPID AMOC component time series"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.9"
@@ -18,11 +18,12 @@ classifiers = [
 ]
 dependencies = [
     "numpy>=1.23",
-    "pandas>=2.0", 
+    "pandas>=2.0",
     "xarray>=2023.12.0",
     "netcdf4>=1.6",
     "scipy>=1.10",
     "matplotlib>=3.7",
+    "pytest>=8.0",
     "amocatlas @ git+https://github.com/amoccommunity/amocatlas.git",
 ]
 
@@ -38,7 +39,7 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["amoc_analysis"]
+include = ["spectra_filtering"]
 
 [tool.black]
 line-length = 88
@@ -50,16 +51,16 @@ line-length = 88
 
 [tool.ruff.lint]
 select = [
-  "E",       # pycodestyle errors
-  "W",       # pycodestyle warnings
-  "F",       # pyflakes errors
-  "I",       # isort
+  "E",
+  "W",
+  "F",
+  "I",
 ]
 ignore = [
-  "E501",    # line‑length (handled by black)
+  "E501",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = "test_*.py"
+python_files = "test_assignment1_*.py"
 addopts = "--verbose"
