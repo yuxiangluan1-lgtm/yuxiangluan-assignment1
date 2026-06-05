@@ -39,7 +39,7 @@ dev = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["spectra_filtering"]
+include = ["spectra_filtering*"]
 
 [tool.black]
 line-length = 88
@@ -64,3 +64,4 @@ ignore = [
 testpaths = ["tests"]
 python_files = "test_assignment1_*.py"
 addopts = "--verbose"
+pythonpath = ["."]
