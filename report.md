@@ -1,6 +1,8 @@
 # Assignment 1: Characterising a SAMBA AMOC Time Series
 
-BBF1004 Yuxiang Luan
+Name: Yuxiang Luan
+
+Course: BBF1004
 
 ## Data choice
 
