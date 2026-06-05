@@ -1,60 +1,61 @@
-# Assignment 1: Characterising a RAPID AMOC Component Time Series
+# Assignment 1: Characterising a SAMBA AMOC Time Series
 
 ## Data choice
 
-This analysis uses the RAPID 26N AMOC observing array and the `t_ek10` variable
-from `moc_transports.nc`. This variable is the Ekman transport component, in
-Sverdrups (Sv). I chose it because it is a physically meaningful AMOC component
-but is not the prohibited headline overturning series `moc_mar_hc10`.
+This analysis uses the SAMBA 34.5S observing array from AMOCatlas and the
+`UPPER_TRANSPORT` variable. This series is the upper-cell volume transport
+anomaly in Sverdrups (Sv). I chose SAMBA because it provides an AMOC-related
+time series from the South Atlantic and does not duplicate the MOCHA/RAPID 26N
+dataset assigned to another student.
 
-The record spans 2004-04-02 to 2023-02-11. The median sampling interval is
-0.5 days, so the regular grid is effectively a 12-hour time series. The series
-contains 13,779 samples, including 20 missing values. The longest missing run is
-10 samples, or 5.0 days. For the spectral calculations I filled these gaps using
-linear interpolation, keeping the original gappy series for the descriptive
-statistics.
+The record spans 2013-09-12 to 2017-07-16. It contains 1,404 daily samples, with
+a median sampling interval of 1.0 day. There are no missing values in the
+standardised series, so no interpolation was needed. The gap-filling step in the
+script is kept for reproducibility, but it leaves this particular series
+unchanged.
 
 ## Time-domain statistics
 
-The Ekman transport has a mean of 3.77 Sv, a standard deviation of 3.44 Sv, and a
-median of 3.88 Sv. Its minimum and maximum are -13.00 Sv and 18.29 Sv,
-respectively, giving a range of 31.29 Sv. The distribution is therefore centred
-on a small positive transport but includes substantial positive and negative
-events. Compared with the mean, the standard deviation is large, which indicates
-that high-frequency wind-driven variability is a major part of this component.
+The upper-cell transport anomaly has a mean of -0.003 Sv, which is essentially
+zero as expected for an anomaly series. The standard deviation is 15.51 Sv,
+showing substantial variability around the mean. The median is 0.35 Sv. The
+minimum and maximum are -50.28 Sv and 52.69 Sv, giving a total range of
+102.97 Sv. The histogram shows that most values are clustered near zero, but the
+series also includes large positive and negative transport anomalies.
 
-The time series plot shows rapid synoptic-to-seasonal variability throughout the
-record. I applied a 90-day Tukey-window low-pass filter with a centred rolling
-window of 181 samples. The filtered curve suppresses short-period variability and
-shows slower changes more clearly, while preserving the broad multi-month to
-interannual structure.
+![SAMBA upper-cell transport distribution](figures/assignment1_distribution_histogram.png)
 
-![Raw and filtered Ekman transport](figures/assignment1_timeseries_raw_filtered.png)
+The raw time series contains strong day-to-day and multi-week variability. I
+applied a 90-day Tukey-window low-pass filter using a centred 91-sample rolling
+window. The filtered curve removes much of the short-timescale variability and
+highlights slower changes in the upper-cell transport anomaly.
+
+![Raw and filtered SAMBA upper-cell transport](figures/assignment1_timeseries_raw_filtered.png)
 
 ## Frequency-domain statistics
 
 I estimated the power spectral density using Welch's method with Hann windows,
-1024-sample segments, and 50 percent overlap. With a 0.5-day sampling interval,
-each segment spans 512 days. This choice averages several independent segments,
-reducing the noise of a raw periodogram while retaining enough resolution to
-separate synoptic, seasonal, and longer timescales.
+1024-sample segments, and 50 percent overlap. Since the data are daily, each
+segment spans 1024 days. This segment length is long enough to retain useful
+low-frequency resolution for the relatively short SAMBA record, while still
+using overlapped segment averaging rather than a single raw periodogram.
 
-The integrated Welch spectrum satisfies the Parseval variance check: the ratio
-between integrated PSD and time-domain variance is 0.996 for the raw filled
-series. This is close to 1, so the PSD normalization is consistent with the
-variance of the time series. The largest Welch spectral peak occurs at an
-approximately 512-day timescale. The spectrum has more energy at low frequencies
-than at the highest resolved frequencies, which is consistent with a redder
-low-frequency component superimposed on strong higher-frequency wind-driven
-variability.
+The integrated Welch spectrum satisfies the Parseval variance check. The ratio
+between integrated PSD and time-domain variance is 1.002 for the raw series,
+which is very close to 1. This indicates that the spectral normalisation is
+consistent with the variance of the time series. The largest spectral peak in
+this estimate corresponds to a timescale of about 256 days. Overall, the
+spectrum has stronger low-frequency than high-frequency variance, suggesting a
+red spectrum with variability concentrated at multi-month and longer
+timescales.
 
 The 90-day Tukey low-pass filter reduces spectral power at frequencies above
-about 1/90 cycles per day. In the filtered spectrum, the high-frequency part is
-strongly attenuated, while the lower-frequency variance is retained. This is the
-expected behaviour of a low-pass filter and makes the slower AMOC-component
-variability easier to interpret.
+about 1/90 cycles per day. The filtered spectrum therefore lies below the raw
+spectrum at higher frequencies, while retaining more of the lower-frequency
+variance. This behaviour is consistent with the goal of isolating slower AMOC
+transport variability.
 
-![Raw and filtered Ekman spectrum](figures/assignment1_spectrum_raw_filtered.png)
+![Raw and filtered SAMBA upper-cell spectrum](figures/assignment1_spectrum_raw_filtered.png)
 
 ## Reproducibility
 
@@ -65,5 +66,6 @@ python assignment_analysis.py
 pytest -q
 ```
 
-The script writes the figures to `figures/` and the numerical summary to
+The script downloads/loads the SAMBA dataset through AMOCatlas, writes the
+figures to `figures/`, and writes the numerical summary to
 `outputs/assignment1_summary.json`.

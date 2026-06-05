@@ -1,4 +1,4 @@
-"""Loading and gap-filling for the RAPID 26N AMOC transport series.
+"""Loading and gap-filling helpers for AMOC transport series.
 
 These routines are *worked* — loading and interpolation are mechanical and not the
 point of the lecture, so students start from a clean array.
@@ -16,15 +16,15 @@ def load_moc(
     path: str | Path,
     var: str = "moc_mar_hc10",
 ) -> tuple[np.ndarray, np.ndarray, float]:
-    """Load an AMOC transport series and its sampling interval.
+    """Load an AMOC transport series from a NetCDF file and its sampling interval.
 
     Parameters
     ----------
     path : str or pathlib.Path
-        Path to the RAPID ``moc_transports.nc`` file.
+        Path to an AMOC transport NetCDF file.
     var : str, optional
-        Variable name to extract. Default ``"moc_mar_hc10"`` (overturning
-        transport, Sv).
+        Variable name to extract. The default matches the lecture starter
+        transport variable.
 
     Returns
     -------

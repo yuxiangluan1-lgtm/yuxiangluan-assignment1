@@ -11,4 +11,7 @@ matplotlib>=3.7
 pytest>=8.0
 
 # AMOC analysis tools
+PyYAML>=6.0
+requests>=2.31
+jinja2>=3.1
 git+https://github.com/amoccommunity/amocatlas.git

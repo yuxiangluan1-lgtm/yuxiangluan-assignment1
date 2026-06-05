@@ -1,8 +1,8 @@
-# Assignment 1: RAPID AMOC Time-Series Characterisation
+# Assignment 1: SAMBA AMOC Time-Series Characterisation
 
 This repository contains my solution for Assignment 1 in Data Analysis in
-Physical Oceanography. The analysis characterises the RAPID 26N Ekman transport
-component (`t_ek10`) in the time and frequency domains.
+Physical Oceanography. The analysis characterises the SAMBA 34.5S upper-cell
+transport anomaly (`UPPER_TRANSPORT`) in the time and frequency domains.
 
 ## Contents
 
@@ -16,6 +16,8 @@ component (`t_ek10`) in the time and frequency domains.
   Tukey-filtered time series.
 - `figures/assignment1_spectrum_raw_filtered.png` shows the raw and filtered
   Welch spectra.
+- `figures/assignment1_distribution_histogram.png` shows the distribution of
+  the selected transport anomaly series.
 - `report.md` is the short written report.
 
 ## Reproduce
@@ -26,4 +28,4 @@ python assignment_analysis.py
 pytest -q
 ```
 
-The RAPID data file used by the script is `data/moc_transports.nc`.
+The data are loaded with AMOCatlas using `read.samba()`.
