@@ -56,6 +56,25 @@ a low-pass filter designed to isolate slower AMOC-related transport variability.
 
 ![Raw and filtered NAC transport proxy spectrum](figures/assignment1_spectrum_raw_filtered.png)
 
+## Filter design and uncertainty
+
+I added a 95 percent chi-squared confidence interval to the raw Welch spectrum.
+Because this NAC record is short, the 64-sample Welch estimate contains only one
+segment, giving about 2 degrees of freedom. The confidence band is therefore
+wide. This means individual spectral peaks should not be over-interpreted; the
+more robust result is the broad contrast between lower-frequency and
+higher-frequency variance.
+
+I also compared the 5-year Tukey rolling window with a plain boxcar window of
+the same 11-sample width. Both filters pass very low frequencies and attenuate
+shorter timescales, but the Tukey window tapers the ends of the convolution
+window. I used the Tukey filter because this tapering reduces the sharp edges of
+the boxcar filter and gives a smoother frequency response, which is a safer
+choice when the goal is to isolate multi-year variability without adding strong
+filter artefacts.
+
+![Tukey and boxcar filter response](figures/assignment1_filter_response.png)
+
 ## Reproducibility
 
 The analysis can be reproduced with:

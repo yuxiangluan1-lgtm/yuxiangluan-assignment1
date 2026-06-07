@@ -18,6 +18,8 @@ transport proxy (`TRANS_NAC_PROXY`) in the time and frequency domains.
   Welch spectra.
 - `figures/assignment1_distribution_histogram.png` shows the distribution of
   the selected NAC transport proxy series.
+- `figures/assignment1_filter_response.png` compares the 5-year Tukey filter
+  response with a same-width boxcar filter response.
 - `report.md` is the short written report.
 
 ## Reproduce
