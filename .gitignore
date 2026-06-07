@@ -178,7 +178,7 @@ cython_debug/
 
 # Old lecture-1 exercise files kept locally only.
 amoc_analysis/
-notebooks/
+notebooks/exercise1.ipynb
 data/moc_transports.nc
 figures/exercise1_*.png
 GETTING_STARTED.md

@@ -9,6 +9,8 @@ matplotlib>=3.7
 
 # Testing
 pytest>=8.0
+nbconvert>=7.0
+ipykernel>=6.0
 
 # AMOC analysis tools
 PyYAML>=6.0

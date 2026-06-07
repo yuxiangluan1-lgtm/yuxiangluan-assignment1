@@ -8,6 +8,8 @@ transport proxy (`TRANS_NAC_PROXY`) in the time and frequency domains.
 
 - `assignment_analysis.py` runs the full analysis and writes figures plus a JSON
   numerical summary.
+- `notebooks/demo.ipynb` is a runnable demo notebook that calls the analysis
+  script and displays the generated results.
 - `spectra_filtering/` contains the time-domain, spectral, filtering, and data
   helper functions used by the analysis.
 - `tests/test_assignment1_requirements.py` contains the required tests for the
