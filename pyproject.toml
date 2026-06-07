@@ -5,7 +5,7 @@ requires = ["setuptools>=68", "wheel"]
 [project]
 name = "yuxiangluan-assignment1"
 version = "0.1.0"
-description = "Assignment 1: characterising a SAMBA AMOC time series"
+description = "Assignment 1: characterising a NAC AMOC time series"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.9"

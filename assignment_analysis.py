@@ -1,4 +1,4 @@
-"""Run Assignment 1 analysis for a SAMBA AMOC time series."""
+"""Run Assignment 1 analysis for a NAC AMOC time series."""
 
 from __future__ import annotations
 
@@ -18,13 +18,13 @@ from spectra_filtering.spectra import parseval_ratio, welch_psd
 FIGURE_DIR = Path("figures")
 OUTPUT_DIR = Path("outputs")
 
-ARRAY_NAME = "SAMBA 34.5S"
-VARIABLE = "UPPER_TRANSPORT"
-VARIABLE_LABEL = "SAMBA 34.5S upper-cell transport anomaly"
+ARRAY_NAME = "NAC"
+VARIABLE = "TRANS_NAC_PROXY"
+VARIABLE_LABEL = "North Atlantic Current transport proxy"
 UNITS = "Sv"
-SEGMENT_LENGTH = 1024
-OVERLAP = 0.5
-LOWPASS_DAYS = 90.0
+SEGMENT_LENGTH = 64
+OVERLAP = 0.0
+LOWPASS_DAYS = 5 * 365.25
 
 
 def _longest_nan_run(values: np.ndarray) -> int:
@@ -46,10 +46,10 @@ def _dominant_timescale_days(freq: np.ndarray, psd: np.ndarray) -> float:
 
 
 def _load_series() -> tuple[np.ndarray, np.ndarray, float]:
-    ds = read.samba()
+    ds = read.nac()
     da = ds[VARIABLE]
     time = da["TIME"].values
-    values = da.values.astype("float64")
+    values = np.squeeze(da.values.astype("float64"))
     dt_days = float(np.median(np.diff(time)) / np.timedelta64(1, "D"))
     return time, values, dt_days
 
@@ -108,7 +108,7 @@ def run() -> dict[str, object]:
 
     fig, ax = plt.subplots(figsize=(10, 4.8), constrained_layout=True)
     ax.plot(time, filled, color="#31688e", linewidth=0.8, alpha=0.7, label="Gap-filled raw")
-    ax.plot(time, filtered, color="#b7372f", linewidth=1.6, label=f"{LOWPASS_DAYS:.0f}-day Tukey low-pass")
+    ax.plot(time, filtered, color="#b7372f", linewidth=1.8, label="5-year Tukey low-pass")
     ax.set_title(f"{VARIABLE_LABEL} time series")
     ax.set_ylabel(f"Transport ({UNITS})")
     ax.set_xlabel("Time")
@@ -133,7 +133,7 @@ def run() -> dict[str, object]:
     positive_f = freq_f > 0
     ax.loglog(freq[positive], psd[positive], color="#31688e", linewidth=1.1, label="Raw Welch PSD")
     ax.loglog(freq_f[positive_f], psd_f[positive_f], color="#b7372f", linewidth=1.5, label="Filtered Welch PSD")
-    ax.axvline(1.0 / LOWPASS_DAYS, color="0.35", linestyle="--", linewidth=1.0, label="90-day cutoff scale")
+    ax.axvline(1.0 / LOWPASS_DAYS, color="0.35", linestyle="--", linewidth=1.0, label="5-year cutoff scale")
     ax.set_title(f"{VARIABLE_LABEL} power spectrum")
     ax.set_xlabel("Frequency (cycles per day)")
     ax.set_ylabel(f"PSD ({UNITS}$^2$ / cycles per day)")
