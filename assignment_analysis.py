@@ -28,6 +28,7 @@ SEGMENT_LENGTH = 64
 OVERLAP = 0.0
 LOWPASS_DAYS = 5 * 365.25
 CONFIDENCE_LEVEL = 0.95
+DAYS_PER_YEAR = 365.25
 
 
 def _longest_nan_run(values: np.ndarray) -> int:
@@ -171,21 +172,25 @@ def run() -> dict[str, object]:
     fig, ax = plt.subplots(figsize=(7.2, 5.2), constrained_layout=True)
     positive = freq > 0
     positive_f = freq_f > 0
-    ax.loglog(freq[positive], psd[positive], color="#31688e", linewidth=1.1, label="Raw Welch PSD")
+    freq_year = freq * DAYS_PER_YEAR
+    freq_year_f = freq_f * DAYS_PER_YEAR
+    psd_year = psd / DAYS_PER_YEAR
+    psd_year_f = psd_f / DAYS_PER_YEAR
+    ax.loglog(freq_year[positive], psd_year[positive], color="#31688e", linewidth=1.1, label="Raw Welch PSD")
     ax.fill_between(
-        freq[positive],
-        psd[positive] * ci_lower_factor,
-        psd[positive] * ci_upper_factor,
+        freq_year[positive],
+        psd_year[positive] * ci_lower_factor,
+        psd_year[positive] * ci_upper_factor,
         color="#31688e",
         alpha=0.18,
         linewidth=0,
         label="95% chi-squared CI",
     )
-    ax.loglog(freq_f[positive_f], psd_f[positive_f], color="#b7372f", linewidth=1.5, label="Filtered Welch PSD")
-    ax.axvline(1.0 / LOWPASS_DAYS, color="0.35", linestyle="--", linewidth=1.0, label="5-year cutoff scale")
+    ax.loglog(freq_year_f[positive_f], psd_year_f[positive_f], color="#b7372f", linewidth=1.5, label="Filtered Welch PSD")
+    ax.axvline(DAYS_PER_YEAR / LOWPASS_DAYS, color="0.35", linestyle="--", linewidth=1.0, label="5-year cutoff scale")
     ax.set_title(f"{VARIABLE_LABEL} power spectrum")
-    ax.set_xlabel("Frequency (cycles per day)")
-    ax.set_ylabel(f"PSD ({UNITS}$^2$ / cycles per day)")
+    ax.set_xlabel("Frequency (cycles per year)")
+    ax.set_ylabel(f"PSD ({UNITS}$^2$ / cycles per year)")
     ax.grid(True, which="both", alpha=0.25)
     ax.legend(frameon=False)
     fig.savefig(FIGURE_DIR / "assignment1_spectrum_raw_filtered.png", dpi=180)
@@ -193,15 +198,17 @@ def run() -> dict[str, object]:
 
     freq_resp_t, response_t = _window_response("tukey", lp_window, dt_days)
     freq_resp_b, response_b = _window_response("boxcar", lp_window, dt_days)
+    freq_resp_year_t = freq_resp_t * DAYS_PER_YEAR
+    freq_resp_year_b = freq_resp_b * DAYS_PER_YEAR
     fig, ax = plt.subplots(figsize=(7.2, 4.8), constrained_layout=True)
     valid_t = freq_resp_t > 0
     valid_b = freq_resp_b > 0
-    ax.semilogx(freq_resp_t[valid_t], response_t[valid_t], color="#b7372f", linewidth=1.6, label="Tukey window")
-    ax.semilogx(freq_resp_b[valid_b], response_b[valid_b], color="#31688e", linewidth=1.2, linestyle="--", label="Boxcar window")
-    ax.axvline(1.0 / LOWPASS_DAYS, color="0.35", linestyle="--", linewidth=1.0, label="5-year scale")
+    ax.semilogx(freq_resp_year_t[valid_t], response_t[valid_t], color="#b7372f", linewidth=1.6, label="Tukey window")
+    ax.semilogx(freq_resp_year_b[valid_b], response_b[valid_b], color="#31688e", linewidth=1.2, linestyle="--", label="Boxcar window")
+    ax.axvline(DAYS_PER_YEAR / LOWPASS_DAYS, color="0.35", linestyle="--", linewidth=1.0, label="5-year scale")
     ax.set_ylim(-0.03, 1.05)
     ax.set_title("Low-pass window power response")
-    ax.set_xlabel("Frequency (cycles per day)")
+    ax.set_xlabel("Frequency (cycles per year)")
     ax.set_ylabel("Normalised power response")
     ax.grid(True, which="both", alpha=0.25)
     ax.legend(frameon=False)

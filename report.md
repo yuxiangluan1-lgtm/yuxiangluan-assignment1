@@ -40,6 +40,7 @@ a 64-sample segment length, and no overlap. The record is short, so this
 configuration is close to a tapered periodogram, but it keeps nearly the full
 record length and gives a stable variance budget. The segment length corresponds
 to about 32 years because the sampling interval is approximately half a year.
+For readability, the spectrum is plotted against frequency in cycles per year.
 
 The integrated spectrum satisfies the Parseval variance check. The ratio between
 integrated PSD and time-domain variance is 0.996 for the raw series, which is
